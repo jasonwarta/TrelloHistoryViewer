@@ -1,0 +1,95 @@
+<!doctype html>
+<head>
+	<link rel="stylesheet" href="styles.css" type="text/css" media="screen" charset="utf-8">
+	<script>
+		function loadFile() {
+			var input, file, fr;
+
+			if (typeof window.FileReader !== 'function'){
+				alert("The file API isn't supported on this browser yet.");
+				return;
+			}
+			input = document.getElementById('fileinput');
+			if(!input) {
+				alert("Couldn't file fileinput element");
+			} else if (!input.files) {
+				alert("This browser doesn't support the 'files' property of file inputs.");
+			} else if (!input.files[0]) {
+				alert("Please select a file before clicking 'Load'");
+			} else {
+				file = input.files[0];
+				fr = new FileReader();
+				fr.onload = playHistory;
+				fr.readAsText(file);
+			}
+		}
+
+		function JSONsort(a,b) {
+			return new Date(a['date']).getTime() - new Date(b['date']).getTime();
+		}
+
+		function playHistory(e){
+			var data = JSON.parse(e.target.result);
+
+			var wrapper = document.getElementById('wrapper');
+			wrapper.innerHTML = "";
+
+			var columnMap = {};
+			var headers = [];
+			for (i in data['lists']){
+				headers.push(data['lists'][i]['name']);
+				columnMap[data['lists'][i]['id']] = 'col-'+i;
+			}
+			for (i in headers) {
+				var h = document.createElement('article');
+				h.className = 'header col-'+i;
+				h.innerHTML = headers[i];
+				wrapper.appendChild(h);
+			}
+
+			var actions = data['actions'];
+
+			actions.sort(JSONsort);
+
+			for (var i = actions.length - 1; i >=0; i--) {
+				if (actions[i]['type'] == "createCard" || actions[i]['type'] == "updateCard") {
+					setTimeout(processCard,1000*i,actions[i],wrapper,columnMap);
+				}
+			}
+		}
+
+		function processCard(action,wrapper,columnMap) {
+			console.log(action)
+			if (action['type'] == "createCard") {
+				var card = document.createElement('article');
+				card.id = action['data']['card']['id'];
+				card.className = 'card ' + columnMap[action['data']['list']['id']];
+				card.innerHTML = action['data']['card']['name'];
+				wrapper.appendChild(card);	
+			}
+			else if (action['type'] == 'updateCard') {
+				var card = document.getElementById(action['data']['card']['id']);
+
+				if (typeof(action['data']['card']['closed']) == 'undefined'){
+					
+					if (action['data']['listAfter'] != null) {
+						card.className = 'card ' + columnMap[action['data']['listAfter']['id']];
+					}
+					else {
+						card.className = 'card ' + columnMap[action['data']['list']['id']];
+					}
+					card.innerHTML = action['data']['card']['name'];
+				}
+				else if (action['data']['card']['closed'] != null && action['data']['card']['closed'] == "true") {
+					card.style.display = "none";
+				}
+			}
+		}
+	</script>
+</head>
+<html>
+	Load JSON File 
+	<input type='file' id='fileinput'>
+	<input type='button' id='btnLoad' value='Load' onclick='loadFile();'>
+	<div class="wrapper" id="wrapper"></div>
+</html>
