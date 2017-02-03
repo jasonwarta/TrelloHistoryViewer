@@ -25,7 +25,7 @@
 		}
 
 		function JSONsort(a,b) {
-			return new Date(a['date']).getTime() - new Date(b['date']).getTime();
+			return (new Date(a['date']).getTime() - new Date(b['date']).getTime());
 		}
 
 		function playHistory(e){
@@ -33,6 +33,8 @@
 
 			var wrapper = document.getElementById('wrapper');
 			wrapper.innerHTML = "";
+
+			var colorMap = {"red":"#F46C54","green":"#A2F554"}
 
 			var columnMap = {};
 			var headers = [];
@@ -51,15 +53,17 @@
 
 			actions.sort(JSONsort);
 
-			for (var i = actions.length - 1; i >=0; i--) {
-				if (actions[i]['type'] == "createCard" || actions[i]['type'] == "updateCard") {
-					setTimeout(processCard,1000*i,actions[i],wrapper,columnMap);
+			counter = 0;
+			timeout = document.getElementById('timeout').value;
+			for (var i = 0; i < actions.length; i++){
+				if (actions[i]['type'] == "createCard" || actions[i]['type'] == "updateCard" || actions[i]['type'] == "commentCard") {
+					counter++;
+					setTimeout(processCard,timeout*counter,actions[i],wrapper,columnMap,colorMap);
 				}
 			}
 		}
 
-		function processCard(action,wrapper,columnMap) {
-			// console.log(action)
+		function processCard(action,wrapper,columnMap,colorMap) {
 			if (action['type'] == "createCard") {
 				var card = document.createElement('article');
 				card.id = action['data']['card']['id'];
@@ -83,13 +87,17 @@
 				else if (action['data']['card']['closed'] != null && action['data']['card']['closed'] == "true") {
 					card.style.display = "none";
 				}
+			} 
+			else if (action['type'] == 'commentCard') {
+				var card = document.getElementById(action['data']['card']['id']);
+				card.style.backgroundColor = colorMap[action['data']['text']];
 			}
 		}
 	</script>
 </head>
 <html>
-	Load JSON File 
-	<input type='file' id='fileinput'>
+	Load JSON File&nbsp;<input type='file' id='fileinput'>
 	<input type='button' id='btnLoad' value='Load' onclick='loadFile();'>
+	&nbsp;&nbsp;&nbsp;&nbsp;Timeout delay (ms)&nbsp;<input id='timeout' type="text" value='750'>
 	<div class="wrapper" id="wrapper"></div>
 </html>

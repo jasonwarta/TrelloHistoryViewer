@@ -68,11 +68,73 @@
         "black": ""
     },
     "powerUps": [],
-    "dateLastActivity": "2017-02-03T02:49:11.774Z",
-    "dateLastView": "2017-02-03T03:18:55.745Z",
+    "dateLastActivity": "2017-02-03T03:33:14.820Z",
+    "dateLastView": "2017-02-03T03:33:07.783Z",
     "shortUrl": "https://trello.com/b/TmrDBHLy",
     "idTags": [],
     "actions": [
+        {
+            "id": "5893f9f3c36737f8fab42e75",
+            "idMemberCreator": "56d40d31186ead1e99c5c76b",
+            "data": {
+                "list": {
+                    "name": "Implementation : Done (3)",
+                    "id": "588ff11144d2aa22967fbc55"
+                },
+                "board": {
+                    "shortLink": "TmrDBHLy",
+                    "name": "Justice League Project",
+                    "id": "588ff04dbef133e597809d17"
+                },
+                "card": {
+                    "shortLink": "0idZLPY6",
+                    "idShort": 4,
+                    "name": "Review forms",
+                    "id": "588ff1e08ab6941bb9db06dd"
+                },
+                "text": "red"
+            },
+            "type": "commentCard",
+            "date": "2017-02-03T03:33:07.674Z",
+            "memberCreator": {
+                "id": "56d40d31186ead1e99c5c76b",
+                "avatarHash": null,
+                "fullName": "Jason Warta",
+                "initials": "JW",
+                "username": "jasonwarta"
+            }
+        },
+        {
+            "id": "5893f9e32e3043ce3eb47615",
+            "idMemberCreator": "56d40d31186ead1e99c5c76b",
+            "data": {
+                "list": {
+                    "name": "Review : WIP (1)",
+                    "id": "588ff3861748d0b404b312e3"
+                },
+                "board": {
+                    "shortLink": "TmrDBHLy",
+                    "name": "Justice League Project",
+                    "id": "588ff04dbef133e597809d17"
+                },
+                "card": {
+                    "shortLink": "lbMMWsYu",
+                    "idShort": 6,
+                    "name": "Design and implement database.",
+                    "id": "588ff24c35119ac40b3c0be2"
+                },
+                "text": "red"
+            },
+            "type": "commentCard",
+            "date": "2017-02-03T03:32:51.271Z",
+            "memberCreator": {
+                "id": "56d40d31186ead1e99c5c76b",
+                "avatarHash": null,
+                "fullName": "Jason Warta",
+                "initials": "JW",
+                "username": "jasonwarta"
+            }
+        },
         {
             "id": "5893efa74e040d682ef3a0a5",
             "idMemberCreator": "588c004611f771a59738a592",
@@ -4001,7 +4063,7 @@
             "id": "588ff24c35119ac40b3c0be2",
             "checkItemStates": null,
             "closed": false,
-            "dateLastActivity": "2017-02-03T02:31:34.059Z",
+            "dateLastActivity": "2017-02-03T03:32:51.269Z",
             "desc": "",
             "descData": null,
             "idBoard": "588ff04dbef133e597809d17",
@@ -4010,7 +4072,9 @@
             "idShort": 6,
             "idAttachmentCover": null,
             "manualCoverAttachment": false,
-            "idLabels": [],
+            "idLabels": [
+                "588ff04dced82109ff05d7d3"
+            ],
             "name": "Design and implement database.",
             "pos": 65535.5,
             "shortLink": "lbMMWsYu",
@@ -4021,7 +4085,7 @@
                 "fogbugz": "",
                 "checkItems": 0,
                 "checkItemsChecked": 0,
-                "comments": 0,
+                "comments": 1,
                 "attachments": 0,
                 "description": false,
                 "due": null,
@@ -4032,7 +4096,15 @@
             "email": "jasonwarta+2lsgedsbakvxt1i59wr+2nnvszdqz2uw85sqbc2+1vzgk9p0on@boards.trello.com",
             "idChecklists": [],
             "idMembers": [],
-            "labels": [],
+            "labels": [
+                {
+                    "id": "588ff04dced82109ff05d7d3",
+                    "idBoard": "588ff04dbef133e597809d17",
+                    "name": "",
+                    "color": "red",
+                    "uses": 1
+                }
+            ],
             "shortUrl": "https://trello.com/c/lbMMWsYu",
             "subscribed": false,
             "url": "https://trello.com/c/lbMMWsYu/6-design-and-implement-database",
@@ -4085,7 +4157,7 @@
             "id": "588ff1e08ab6941bb9db06dd",
             "checkItemStates": null,
             "closed": false,
-            "dateLastActivity": "2017-02-03T02:31:53.528Z",
+            "dateLastActivity": "2017-02-03T03:33:14.820Z",
             "desc": "",
             "descData": null,
             "idBoard": "588ff04dbef133e597809d17",
@@ -4105,7 +4177,7 @@
                 "fogbugz": "",
                 "checkItems": 0,
                 "checkItemsChecked": 0,
-                "comments": 0,
+                "comments": 1,
                 "attachments": 0,
                 "description": false,
                 "due": null,
@@ -4286,6 +4358,13 @@
             "uses": 1
         },
         {
+            "id": "588ff04dced82109ff05d7d3",
+            "idBoard": "588ff04dbef133e597809d17",
+            "name": "",
+            "color": "red",
+            "uses": 1
+        },
+        {
             "id": "588ff04dced82109ff05d7d0",
             "idBoard": "588ff04dbef133e597809d17",
             "name": "",
@@ -4297,13 +4376,6 @@
             "idBoard": "588ff04dbef133e597809d17",
             "name": "",
             "color": "yellow",
-            "uses": 0
-        },
-        {
-            "id": "588ff04dced82109ff05d7d3",
-            "idBoard": "588ff04dbef133e597809d17",
-            "name": "",
-            "color": "red",
             "uses": 0
         },
         {
