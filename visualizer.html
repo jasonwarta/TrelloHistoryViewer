@@ -82,7 +82,10 @@
 		function timedQueue(){
 			if (!wait) {
 				setTimeout(function(){
-					processCard(jobs.shift());
+					var item = jobs.shift();
+					if (typeof(item) !== 'undefined'){
+						processCard(item);
+					}
 					timedQueue();
 				},timeout);
 			} else {
