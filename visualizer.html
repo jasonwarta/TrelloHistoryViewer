@@ -3,7 +3,25 @@
 	<title>Trello History Visualizer</title>
 	<link rel="stylesheet" href="styles.css" type="text/css" media="screen" charset="utf-8">
 	<script>
+		var wait = false;
+		var	timeout = 750;
+		var jobs = [];
+		// var columnMap = {};
+		var colorMap = {"red":"#F46C54","green":"#A2F554"}
+
+		function toggle(){
+			var btnToggle=document.getElementById('btnToggle');
+			if(wait){
+				btnToggle.value='Pause';
+			}
+			else {
+				btnToggle.value='Play';
+			}
+			wait = !wait;
+		}
+
 		function loadFile() {
+			document.getElementById('btnLoad').disabled = true;
 			var input, file, fr;
 
 			if (typeof window.FileReader !== 'function'){
@@ -40,11 +58,8 @@
 			}
 			wrapper.style.gridTemplateColumns = cols;
 
-			var colorMap = {"red":"#F46C54","green":"#A2F554"}
-
-			var columnMap = {};
 			for (i in data['lists']){
-				columnMap[data['lists'][i]['id']] = 'col-'+i;
+				// columnMap[data['lists'][i]['id']] = 'col-'+i;
 
 				var h = document.createElement('section');
 				h.className = 'container col-'+i;
@@ -56,21 +71,30 @@
 			}
 
 			var actions = data['actions'];
-
 			actions.sort(JSONsort);
 
-			counter = 0;
-			timeout = document.getElementById('timeout').value;
 			for (var i = 0; i < actions.length; i++){
 				if (actions[i]['type'] == "createCard" || actions[i]['type'] == "updateCard" || actions[i]['type'] == "commentCard") {
-					counter++;
-					setTimeout(processCard,timeout*counter,actions[i],wrapper,columnMap,colorMap);
-					console.log(i);
+					jobs.push(actions[i]);
 				}
+			}
+			timedQueue();
+		}
+
+		function timedQueue(){
+			if (!wait) {
+				setTimeout(function(){
+					processCard(jobs.shift());
+					timedQueue();
+				},timeout);
+			} else {
+				setTimeout(function(){
+					timedQueue();
+				},timeout);
 			}
 		}
 
-		function processCard(action,wrapper,columnMap,colorMap) {
+		function processCard(action) {
 			if (action['type'] == "createCard") {
 				var card = document.createElement('article');
 				card.id = action['data']['card']['id'];
@@ -104,5 +128,7 @@
 	Load JSON File&nbsp;<input type='file' id='fileinput'>
 	<input type='button' id='btnLoad' value='Load' onclick='loadFile();'>
 	&nbsp;&nbsp;&nbsp;&nbsp;Timeout delay (ms)&nbsp;<input id='timeout' type="text" value='750'>
+	<input type="button" id='btnToggle' value="Pause" onclick="toggle();">
+	<!-- <button onclick="toggle();" value="Pause"></button> -->
 	<div class="wrapper" id="wrapper"></div>
 </html>
