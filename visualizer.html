@@ -1,7 +1,7 @@
 <!doctype html>
 <head>
 	<title>Trello History Visualizer</title>
-	<link rel="stylesheet" href="parser-styles.css" type="text/css" media="screen" charset="utf-8">
+	<link rel="stylesheet" href="styles.css" type="text/css" media="screen" charset="utf-8">
 	<script>
 		function loadFile() {
 			var input, file, fr;
@@ -65,6 +65,7 @@
 				if (actions[i]['type'] == "createCard" || actions[i]['type'] == "updateCard" || actions[i]['type'] == "commentCard") {
 					counter++;
 					setTimeout(processCard,timeout*counter,actions[i],wrapper,columnMap,colorMap);
+					console.log(i);
 				}
 			}
 		}
