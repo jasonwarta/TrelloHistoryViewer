@@ -81,17 +81,15 @@
 			timedQueue(0);
 		}
 
-		function timedQueue(index){
+		function timedQueue(){
 			if (!wait) {
-				if(index < jobs.length){
-					setTimeout(function(){
-						processCard(jobs[index]);
-						timedQueue(++index);
-					},timeout);
-				}
+				setTimeout(function(){
+					processCard(jobs.shift());
+					timedQueue();
+				},timeout);
 			} else {
 				setTimeout(function(){
-					timedQueue(index);
+					timedQueue();
 				},timeout);
 			}
 		}
