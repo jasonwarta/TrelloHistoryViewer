@@ -15,6 +15,7 @@
 			else {
 				btnToggle.value='Play';
 			}
+			timeout = document.getElementById('timeout').value;
 			wait = !wait;
 		}
 
@@ -74,6 +75,7 @@
 					jobs.push(actions[i]);
 				}
 			}
+			timeout = document.getElementById('timeout').value;
 			timedQueue(0);
 		}
 
