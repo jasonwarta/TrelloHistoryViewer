@@ -6,8 +6,6 @@
 		var wait = false;
 		var	timeout = 750;
 		var jobs = [];
-		// var columnMap = {};
-		var colorMap = {"red":"#F46C54","green":"#A2F554"};
 
 		function toggle(){
 			var btnToggle=document.getElementById('btnToggle');
@@ -59,8 +57,6 @@
 			wrapper.style.gridTemplateColumns = cols;
 
 			for (i in data['lists']){
-				// columnMap[data['lists'][i]['id']] = 'col-'+i;
-
 				var h = document.createElement('section');
 				h.className = 'container col-'+i;
 				h.id = data['lists'][i]['id']
@@ -119,7 +115,7 @@
 			} 
 			else if (action['type'] == 'commentCard') {
 				var card = document.getElementById(action['data']['card']['id']);
-				card.style.borderColor = colorMap[action['data']['text']];
+				card.style.borderColor = action['data']['text'];
 			}
 		}
 	</script>
@@ -129,6 +125,5 @@
 	<input type='button' id='btnLoad' value='Load' onclick='loadFile();'>
 	&nbsp;&nbsp;&nbsp;&nbsp;Timeout delay (ms)&nbsp;<input id='timeout' type="text" value='750'>
 	<input type="button" id='btnToggle' value="Pause" onclick="toggle();">
-	<!-- <button onclick="toggle();" value="Pause"></button> -->
 	<div class="wrapper" id="wrapper"></div>
 </html>
