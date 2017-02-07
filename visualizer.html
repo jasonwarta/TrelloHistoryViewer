@@ -7,7 +7,7 @@
 		var	timeout = 750;
 		var jobs = [];
 		// var columnMap = {};
-		var colorMap = {"red":"#F46C54","green":"#A2F554"}
+		var colorMap = {"red":"#F46C54","green":"#A2F554"};
 
 		function toggle(){
 			var btnToggle=document.getElementById('btnToggle');
@@ -78,18 +78,20 @@
 					jobs.push(actions[i]);
 				}
 			}
-			timedQueue();
+			timedQueue(0);
 		}
 
-		function timedQueue(){
+		function timedQueue(index){
 			if (!wait) {
-				setTimeout(function(){
-					processCard(jobs.shift());
-					timedQueue();
-				},timeout);
+				if(index < jobs.length){
+					setTimeout(function(){
+						processCard(jobs[index]);
+						timedQueue(++index);
+					},timeout);
+				}
 			} else {
 				setTimeout(function(){
-					timedQueue();
+					timedQueue(index);
 				},timeout);
 			}
 		}
