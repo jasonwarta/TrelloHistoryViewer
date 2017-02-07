@@ -33,19 +33,24 @@
 
 			var wrapper = document.getElementById('wrapper');
 			wrapper.innerHTML = "";
+			var cols = "";
+			for (var i = 0; i < data['lists'].length; i++){
+				cols += "1fr "
+			}
+			wrapper.style.gridTemplateColumns = cols;
 
 			var colorMap = {"red":"#F46C54","green":"#A2F554"}
 
 			var columnMap = {};
-			var headers = [];
 			for (i in data['lists']){
-				headers.push(data['lists'][i]['name']);
 				columnMap[data['lists'][i]['id']] = 'col-'+i;
-			}
-			for (i in headers) {
-				var h = document.createElement('article');
-				h.className = 'header col-'+i;
-				h.innerHTML = headers[i];
+
+				var h = document.createElement('section');
+				h.className = 'container col-'+i;
+				h.id = data['lists'][i]['id']
+				var h3 = document.createElement('h3');
+				h3.innerHTML = data['lists'][i]['name'];
+				h.appendChild(h3);
 				wrapper.appendChild(h);
 			}
 
@@ -67,9 +72,9 @@
 			if (action['type'] == "createCard") {
 				var card = document.createElement('article');
 				card.id = action['data']['card']['id'];
-				card.className = 'card ' + columnMap[action['data']['list']['id']];
+				card.className = 'card';
 				card.innerHTML = action['data']['card']['name'];
-				wrapper.appendChild(card);	
+				document.getElementById(action['data']['list']['id']).appendChild(card);
 			}
 			else if (action['type'] == 'updateCard') {
 				var card = document.getElementById(action['data']['card']['id']);
@@ -77,10 +82,8 @@
 				if (typeof(action['data']['card']['closed']) == 'undefined'){
 					
 					if (action['data']['listAfter'] != null) {
-						card.className = 'card ' + columnMap[action['data']['listAfter']['id']];
-					}
-					else {
-						card.className = 'card ' + columnMap[action['data']['list']['id']];
+						document.getElementById(action['data']['listBefore']['id']).removeChild(card);
+						document.getElementById(action['data']['listAfter']['id']).appendChild(card);
 					}
 					card.innerHTML = action['data']['card']['name'];
 				}
@@ -90,7 +93,7 @@
 			} 
 			else if (action['type'] == 'commentCard') {
 				var card = document.getElementById(action['data']['card']['id']);
-				card.style.backgroundColor = colorMap[action['data']['text']];
+				card.style.borderColor = colorMap[action['data']['text']];
 			}
 		}
 	</script>
