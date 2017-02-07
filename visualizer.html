@@ -19,6 +19,16 @@
 			wait = !wait;
 		}
 
+		function slower(){
+			timeout += 50;
+			document.getElementById('timeout').value = timeout;
+		}
+
+		function faster(){
+			timeout -= 50;
+			document.getElementById('timeout').value = timeout;
+		}
+
 		function loadFile() {
 			document.getElementById('btnLoad').disabled = true;
 			var input, file, fr;
@@ -129,6 +139,8 @@
 	Load JSON File&nbsp;<input type='file' id='fileinput'>
 	<input type='button' id='btnLoad' value='Load' onclick='loadFile();'>
 	&nbsp;&nbsp;&nbsp;&nbsp;Timeout delay (ms)&nbsp;<input id='timeout' type="text" value='750'>
+	<input type="button" id='btnSlow' value='Slower' onclick='slower();'>
 	<input type="button" id='btnToggle' value="Pause" onclick="toggle();">
+	<input type="button" id='btnFast' value='Faster' onclick='faster();'>
 	<div class="wrapper" id="wrapper"></div>
 </html>
