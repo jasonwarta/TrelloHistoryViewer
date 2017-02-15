@@ -3,9 +3,37 @@
 	<title>Trello History Visualizer</title>
 	<link rel="stylesheet" href="styles.css" type="text/css" media="screen" charset="utf-8">
 	<script>
-		var wait = false;
+		var wait = true;
 		var	timeout = 750;
 		var jobs = [];
+		var startDate;
+
+		Number.prototype.AddZero= function(b,c){
+        	var  l= (String(b|| 10).length - String(this).length)+1;
+        	return l> 0? new Array(l).join(c|| '0')+this : this;
+        }
+
+        function setDateTime(){
+        	var d = new Date();
+			d.setDate(d.getDate()-7)
+			var localDateTime= [
+				d.getFullYear(),
+				(d.getMonth()+1).AddZero(),
+				(d.getDate()).AddZero(),
+                ].join('-') +'T' + [
+                d.getHours().AddZero(),
+                d.getMinutes().AddZero()].join(':');
+			document.getElementById('startDate').value = localDateTime;
+        }
+
+        function loadDateTime(){
+        	startDate = document.getElementById('startDate').value;
+        }
+
+		document.addEventListener("DOMContentLoaded", function(event) {
+			setDateTime()
+			loadDateTime()
+		});
 
 		function toggle(){
 			var btnToggle=document.getElementById('btnToggle');
@@ -16,6 +44,7 @@
 				btnToggle.value='Play';
 			}
 			timeout = document.getElementById('timeout').value;
+			loadDateTime()
 			wait = !wait;
 		}
 
@@ -30,8 +59,9 @@
 		}
 
 		function loadFile() {
-			document.getElementById('btnLoad').disabled = true;
+			// document.getElementById('btnLoad').disabled = true;
 			var input, file, fr;
+			jobs = [];
 
 			if (typeof window.FileReader !== 'function'){
 				alert("The file API isn't supported on this browser yet.");
@@ -50,6 +80,7 @@
 				fr.onload = playHistory;
 				fr.readAsText(file);
 			}
+			loadDateTime()
 		}
 
 		function JSONsort(a,b) {
@@ -86,6 +117,14 @@
 				}
 			}
 			timeout = document.getElementById('timeout').value;
+
+			
+			if (startDate != "") {
+				while (jobs[0]['date'] < startDate) {
+					processCard(jobs.shift());
+				}
+			}
+
 			timedQueue(0);
 		}
 
@@ -94,6 +133,7 @@
 				setTimeout(function(){
 					var item = jobs.shift();
 					if (typeof(item) !== 'undefined'){
+						console.log(item['type'])
 						processCard(item);
 					}
 					timedQueue();
@@ -102,6 +142,15 @@
 				setTimeout(function(){
 					timedQueue();
 				},timeout);
+			}
+		}
+
+		function next(){
+			wait = true;
+			var item = jobs.shift();
+			if (typeof(item) !== 'undefined'){
+				console.log(item['type'])
+				processCard(item);
 			}
 		}
 
@@ -136,11 +185,15 @@
 	</script>
 </head>
 <html>
-	Load JSON File&nbsp;<input type='file' id='fileinput'>
-	<input type='button' id='btnLoad' value='Load' onclick='loadFile();'>
-	&nbsp;&nbsp;&nbsp;&nbsp;Timeout delay (ms)&nbsp;<input id='timeout' type="text" value='750'>
-	<input type="button" id='btnSlow' value='Slower' onclick='slower();'>
-	<input type="button" id='btnToggle' value="Pause" onclick="toggle();">
-	<input type="button" id='btnFast' value='Faster' onclick='faster();'>
+	<header>
+		Load JSON File&nbsp;<input type='file' id='fileinput'>
+		<input type="datetime-local" id='startDate'>
+		<input type='button' id='btnLoad' value='Load' onclick='loadFile();'>
+		&nbsp;&nbsp;&nbsp;&nbsp;Timeout delay (ms)&nbsp;<input id='timeout' type="text" value='750'>
+		<input type="button" id='btnSlow' value='Slower' onclick='slower();'>
+		<input type="button" id='btnToggle' value="Play" onclick="toggle();">
+		<input type="button" id='btnFast' value='Faster' onclick='faster();'>
+		<input type="button" id='btnNext' value='Next' onclick='next();'>
+	</header>
 	<div class="wrapper" id="wrapper"></div>
 </html>
