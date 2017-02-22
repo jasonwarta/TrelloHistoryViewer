@@ -155,6 +155,8 @@
 			if (typeof(item) !== 'undefined'){
 				console.log(item['type'])
 				processCard(item);
+			} else {
+				document.getElementById('doneMsg').style.display = 'inline';
 			}
 		}
 
