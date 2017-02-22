@@ -48,3 +48,11 @@ h3 {
     grid-row:1/2;
     border-bottom:2px solid black;
 }
+
+#doneMsg {
+    display:none;
+    background:red;
+    padding:2px;
+    border-radius:3px;
+    font-weight:bold;
+}
